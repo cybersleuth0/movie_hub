@@ -133,15 +133,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget horizontalScroll(int outerindex) {
+  Widget horizontalScroll(int index) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
-        itemCount: movie_db.moviedatabase[outerindex]["movies"].length,
+        itemCount: movie_db.moviedatabase[index]["movies"].length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, childIndex) {
-          final selectedcategory =
-              movie_db.moviedatabase[outerindex]["movies"][childIndex];
+          final selectedcategory = movie_db.moviedatabase[index];
           return Padding(
             padding: const EdgeInsets.only(left: 20),
             child: InkWell(
@@ -150,8 +149,8 @@ class HomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ListofMovies(
-                              index: outerindex,
-                            )));
+                            selectedcategory: selectedcategory,
+                            genreName: selectedcategory["GENREs"])));
               },
               child: Container(
                 width: 150,
@@ -159,7 +158,7 @@ class HomePage extends StatelessWidget {
                     color: Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: NetworkImage(movie_db.moviedatabase[outerindex]
+                        image: NetworkImage(movie_db.moviedatabase[index]
                             ["movies"][childIndex]['movie_Poster']),
                         fit: BoxFit.cover)),
               ),

@@ -2,6 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
+  var tapmovie;
+
+  DetailsPage({required this.tapmovie});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +50,10 @@ class DetailsPage extends StatelessWidget {
                 // Main Poster Image with Clipping
                 Container(
                   height: 600,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        "https://catimages.org/images/2025/01/10/Fateh-2025-HDHub4u.Tv.jpg",
+                        tapmovie["movie_Poster"],
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -91,16 +95,16 @@ class DetailsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           // Movie Title
                           Text(
-                            "Fateh (Full Movie)",
+                            tapmovie["movie_Name"],
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontFamily: "OpenSans",
                                 fontSize: 28,
@@ -115,22 +119,15 @@ class DetailsPage extends StatelessWidget {
               ],
             ),
             //movie details cast director etc
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    """
-iMDB Rating: x/10
-Genre: Action | Crime | Thriller
-Stars: Sonu Sood, Jacqueline Fernandez, Vijay Raaz
-Director: Sonu Sood
-Language: Hindi ORG-DD2.0 / HC-ESub
-Quality: PRE-HD 1080p | 720p | 480p
-                    """,
+                    tapmovie["movie_desc"],
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontFamily: "OpenSans",
                       fontSize: 16,
@@ -172,18 +169,18 @@ Quality: PRE-HD 1080p | 720p | 480p
                       width: 150,
                       decoration: BoxDecoration(
                           color: Colors.grey.shade300,
-                          image: const DecorationImage(
+                          image: DecorationImage(
                               image: NetworkImage(
-                                  "https://catimages.org/images/2025/01/09/vlcsnap-2025-01-09-20h21m18s734.jpg"),
+                                  tapmovie["movie_screenshot_links"][index]),
                               fit: BoxFit.cover)),
                     );
                   },
                 )),
             const SizedBox(height: 20),
-            const Text(
-              "Download Fateh (2025) Full Movie in Hindi | HD",
+            Text(
+              "Download ${tapmovie["movie_Name"]}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontFamily: "OpenSans",
                   fontSize: 28,
@@ -200,23 +197,30 @@ Quality: PRE-HD 1080p | 720p | 480p
                   fontWeight: FontWeight.bold,
                 )),
             const SizedBox(height: 5),
+            //downloads links
             SizedBox(
               height: 200,
               child: ListView.builder(
-                itemCount: 1,
+                itemCount: tapmovie["movie_download_links"][0].keys.length,
                 itemBuilder: (context, index) {
+                  // Get the keys from the map
+                  final keys =
+                      tapmovie["movie_download_links"][0].keys.toList();
+                  final key = keys[index]; // Get the key at the current index
+
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Column(
                         children: [
-                          const Text(
-                            "480p⚡[450MB]",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 2),
+                          Text(
+                            key, // Display the key
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Divider(
@@ -224,22 +228,13 @@ Quality: PRE-HD 1080p | 720p | 480p
                             height: 0,
                             thickness: 2,
                           ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            "720p HEVC [760MB]",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 2),
-                          ),
                         ],
                       ),
                     ),
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

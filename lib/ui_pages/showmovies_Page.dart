@@ -4,47 +4,28 @@ import 'package:movieshub/ui_pages/movieDetails_page.dart';
 
 class ListofMovies extends StatelessWidget {
   //category index
-  final int index;
+  final Map<String, dynamic> selectedcategory;
+  final genreName;
 
-  ListofMovies({required this.index});
+  ListofMovies({required this.selectedcategory, required this.genreName});
 
   @override
   Widget build(BuildContext context) {
-    print("${movie_db.moviedatabase[index]['movies']}");
     //get all movies in selected category
-    final tapcategory = movie_db.moviedatabase[index]["movies"];
+    final tapcategory = selectedcategory;
+    final allmovies = tapcategory["movies"];
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
             centerTitle: true,
             backgroundColor: Colors.black,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "Movies ",
-                  style: TextStyle(
-                      fontFamily: "Merriweather",
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: const Color(0xfff3bc32)),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: const Text(
-                    "Hub",
-                    style: TextStyle(
-                        fontFamily: "Merriweather",
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                ),
-              ],
+            title: Text(
+              genreName,
+              style: const TextStyle(
+                  fontFamily: "Merriweather",
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25),
             )),
         body: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,15 +33,19 @@ class ListofMovies extends StatelessWidget {
                 mainAxisSpacing: 11,
                 crossAxisSpacing: 11,
                 childAspectRatio: 9 / 16),
-            itemCount: tapcategory.length,
-            itemBuilder: (context, childindex) {
-              final movie = tapcategory["movies"];
+            itemCount: allmovies.length,
+            itemBuilder: (context, index) {
+              final movie = allmovies[index];
               return Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => DetailsPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailsPage(
+                                  tapmovie: movie,
+                                )));
                   },
                   child: Stack(children: [
                     //Movie Poster
@@ -72,7 +57,7 @@ class ListofMovies extends StatelessWidget {
                       child: Container(
                         color: Colors.black54,
                         child: Text(
-                          movie["movieName"],
+                          movie["movie_Name"],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 5,
                           style: const TextStyle(
