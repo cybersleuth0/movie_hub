@@ -161,7 +161,7 @@ class DetailsPage extends StatelessWidget {
             SizedBox(
                 height: 200,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: tapmovie["movie_screenshot_links"].length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
@@ -201,20 +201,18 @@ class DetailsPage extends StatelessWidget {
             SizedBox(
               height: 200,
               child: ListView.builder(
-                itemCount: tapmovie["movie_download_links"][0].keys.length,
+                itemCount: tapmovie["movie_download_links"].length,
                 itemBuilder: (context, index) {
-                  // Get the keys from the map
+                  // Get all the keys
                   final keys =
-                      tapmovie["movie_download_links"][0].keys.toList();
-                  final key = keys[index]; // Get the key at the current index
-
+                      tapmovie["movie_download_links"][index].keys.toList();
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Column(
                         children: [
                           Text(
-                            key, // Display the key
+                            keys[0], // Display the key
                             style: const TextStyle(
                               color: Colors.blue,
                               fontSize: 20,
